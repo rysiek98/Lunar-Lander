@@ -1,52 +1,62 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.io.File;
+
+//GŁÓWNE OKNO GRY
 
 public class GameWindow extends JFrame {
 
-    int readYPlanet[];
+    private int readYPlanet[];
+    private int readXPlanet[];
+    private int readPlanetColor[];
+    static int res_width;
+    static int res_height;
 
     public GameWindow(Point Loc) {
         try {
             LoadingLevel File = new LoadingLevel(new File("testLevel.txt"));
             readYPlanet = File.getElevation();
+            readXPlanet = File.getPosition();
+            readPlanetColor = File.getPlanetColor();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        setSize(800, 700);
-        scaleYPlanet();
-        Game game = new Game(new DrawPlanet(), new DrawShip(getSize().height, getSize().width), readYPlanet, getSize().width, getSize().height);
-        add(game);
-        setLocation(Loc);
-        setVisible(true);
-        addWindowListener(new java.awt.event.WindowAdapter() {
+
+        setSize(1280, 720);
+
+        getContentPane().addComponentListener(new ComponentAdapter() { //WYKRYWA ZMIANĘ ROZMIARU OKNA
             @Override
-            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                new MainWindow(locPoint(), getWidth(), getHeigth());
+            public void componentResized(ComponentEvent e) {
+                super.componentResized(e);
+                Component c = (Component) e.getSource();
+                res_height = c.getHeight();
+                res_width = c.getWidth();
             }
         });
 
-        new MyThread(game);
+        Game game = new Game(new DrawPlanet(), new DrawShip(getSize().height, getSize().width), readXPlanet, readYPlanet, getSize().width, getSize().height, readPlanetColor);
+        add(game);
+        setLocation(Loc);
+        setVisible(true);
+
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                new MainWindow();
+            }
+        });
+
+        new MyThread(game); //TU TWORZY SIĘ NOWY WĄTEK OBSŁUGUJĄCY RYSOWANIE
     }
 
-
-    private Point locPoint() {
-        return this.getLocation();
+    //FUNKCJE ZAWIERAJĄCE NOWE WYMIARY OKNA
+    static public int getRes_width(){
+        return res_width;
     }
 
-    public int getWidth() {
-        return this.getSize().width;
-    }
-
-    public int getHeigth() {
-        return this.getSize().height;
-    }
-
-    public void scaleYPlanet(){
-        Dimension size = getSize();
-        for(int i =0; i<readYPlanet.length; i++){
-            readYPlanet[i] = (int)(((double)readYPlanet[i]/100)*size.height);
-            System.out.println(readYPlanet[i]);
-        }
+    static public int getRes_height(){
+        return res_height;
     }
 }

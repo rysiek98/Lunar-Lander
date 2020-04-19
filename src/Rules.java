@@ -1,33 +1,26 @@
 import javax.swing.*;
 import java.awt.*;
 
+//ZALĄŻEK KLASY WYSWIETLAJĄCY ZASADY GRY
+
 public class Rules extends JFrame {
 
-    public Rules(Point Loc, int width, int heigth){
+    public Rules(int Loc[]){
 
         pack();
-        setSize(new Dimension(width, heigth));
-        setLocation(Loc);
+        setSize(new Dimension(640, 480));
+        setLocation(setLoc(Loc));
         setVisible(true);
-
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            @Override
-            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                new MainWindow(locPoint(), getWidth(), getHeigth());
-                }
-        });
     }
 
-    private Point locPoint() {
-        return this.getLocation();
+    private Point setLoc(int[] Loc) {
+        Point result = new Point();
+        Loc[2] = Loc[2]/2 - (this.getSize().width/2);
+        Loc[3] = Loc[3]/2 - (this.getSize().height/2);
+        result.x = Loc[0] + Loc[2];
+        result.y = Loc[1] + Loc[3];
+        return result;
     }
 
-    public int getWidth() {
-        return this.getSize().width;
-    }
-
-    public int getHeigth() {
-        return this.getSize().height;
-    }
 
 }

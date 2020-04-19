@@ -4,6 +4,8 @@ import javax.imageio.ImageIO;
 import java.io.IOException;
 import javax.swing.*;
 
+//KLASA POWTARZAJĄCA OBRAZ W CELU WYPEŁNIENIA TŁA
+
 public class BackgroundRepeat {
 
     private BufferedImage tile;
@@ -15,7 +17,6 @@ public class BackgroundRepeat {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-
         tileWidth = tile.getWidth();
         tileHeight = tile.getHeight();
     }

@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Arrays;
 
+//OKNO ZAWIERAJĄCE GŁÓWNE MENU
 
 public  class MainWindow extends  JFrame {
 
@@ -25,14 +26,17 @@ public  class MainWindow extends  JFrame {
         Header = createHeader();
         Content = createContent();
         Footer = createFooter();
+
         pack();
         setSize(new Dimension(800, 700));
+
         try {
             BufferedImage myImage = ImageIO.read(new File("menu_background.jpg"));
             this.setContentPane(new BackgroundImage(myImage, this));
         }catch (Exception e) {
             System.out.println("Blad obrazka!");
         }
+
         BorderLayout borderLayout = new BorderLayout(10,20);
         setLayout(borderLayout);
         add(Header, BorderLayout.NORTH);
@@ -42,36 +46,10 @@ public  class MainWindow extends  JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
         MainWindow = this;
-
     }
 
-    public MainWindow(Point Loc, int width, int heigth){
 
-        JPanel Header = createHeader();
-        JPanel Content = createContent();
-        JPanel Footer = createFooter();
-
-
-        pack();
-        setSize(new Dimension(width, heigth));
-        try {
-            BufferedImage myImage = ImageIO.read(new File("menu_background.jpg"));
-            this.setContentPane(new BackgroundImage(myImage, this));
-        }catch (Exception e) {
-
-        }
-
-        BorderLayout borderLayout = new BorderLayout(10,20);
-        setLayout(borderLayout);
-        add(Header, BorderLayout.NORTH);
-        getContentPane().add(Content, BorderLayout.CENTER);
-        add(Footer, BorderLayout.SOUTH);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        MainWindow = this;
-        setLocation(Loc);
-        setVisible(true);
-    }
-
+    //TWORZY ODSTĘP I WYŚWIETLA NAZWĘ GRY
     private JPanel createHeader() {
         Color myColor = new Color(176, 196, 222);
         JPanel panel = new JPanel();
@@ -88,6 +66,7 @@ public  class MainWindow extends  JFrame {
         return panel;
     }
 
+    //ZAWIERA WSZYSTKIE PRZYCISKI
     private JPanel createContent() {
         JPanel panel = new JPanel();
         playButton = new JButton("Graj");
@@ -130,7 +109,7 @@ public  class MainWindow extends  JFrame {
         rulesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Rules();
+                new Rules(centerFrame());
             }
         });
 
@@ -151,7 +130,7 @@ public  class MainWindow extends  JFrame {
         return panel;
     }
 
-
+    //STOPKA
     private JPanel createFooter() {
         JPanel panel = new JPanel();
         Color myColor = new Color(176, 196, 222);
@@ -168,18 +147,14 @@ public  class MainWindow extends  JFrame {
         return panel;
     }
 
-
+    //OKNO DIALOGOWE PODCZAS OPUSZCZNIA APLIKACJI
     private void Exit(JPanel panel){
         if (JOptionPane.showConfirmDialog(panel,"Potwierdz jesli chcesz wyjśc.","Lunar Lander",
                 JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION)
             System.exit(0);
     }
 
-    private void Rules() {
-        new Rules(this.getLocationOnScreen(), this.getSize().width, this.getSize().height);
-        this.dispose();
-    }
-
+    //UMOŻLIWIA WYŚRODKOWANIE INNYCH OKIEN
     private int[]  centerFrame() {
         int[] Loc = new int[4];
         Loc[0] = this.getLocationOnScreen().x;
@@ -189,12 +164,9 @@ public  class MainWindow extends  JFrame {
         return Loc;
     }
 
+    //WYŚWIETLA OKNO Z WYNIKAMI
     private void Results() {
         new ResultsTable(this.getLocationOnScreen(), this.getSize().width, this.getSize().height);
         this.dispose();
     }
-
-
-
-
 }

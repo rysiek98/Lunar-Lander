@@ -1,5 +1,6 @@
 import java.awt.EventQueue;
 
+//GŁÓWNA KLASA URUCHAMIAJĄCA APLIKACJĘ
 
 public class App {
     public static void main(String[] args) {

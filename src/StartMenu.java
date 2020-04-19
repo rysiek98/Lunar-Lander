@@ -6,6 +6,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Enumeration;
 
+//KLASA OKNA WSTĘPNEGO DO GRY
+
 public class StartMenu  extends JFrame {
 
     private JTextField SetNick;
@@ -96,6 +98,7 @@ public class StartMenu  extends JFrame {
         return panel;
     }
 
+    //OBLICZA POZYCJĘ OKNA DO WYŚRODKOWANIA
     private Point setLoc(int[] Loc) {
         Point result = new Point();
         Loc[2] = Loc[2]/2 - (this.getSize().width/2);
@@ -105,6 +108,7 @@ public class StartMenu  extends JFrame {
         return result;
     }
 
+    //SPRAWDZA CZY NAZWA GRACZA ZOSTAŁA WPISANA
     public Boolean isnotEmpty(JTextField Nick){
         if(Nick.getText().trim().isEmpty()){
             SetNick.setBackground(new Color(255, 51, 102));
@@ -115,8 +119,8 @@ public class StartMenu  extends JFrame {
         }
     }
 
+    //SPRAWDZA CZY WYBRANO POZIOM TRUDNOŚCI
     public Boolean difficultLevelChecked(ButtonGroup RG){
-
         for (Enumeration<AbstractButton> buttons = RG.getElements(); buttons.hasMoreElements();) {
             AbstractButton button = buttons.nextElement();
             if (button.isSelected()) {
@@ -130,6 +134,5 @@ public class StartMenu  extends JFrame {
     private void GameWindow(JFrame frame) {
         new GameWindow(frame.getLocationOnScreen());
     }
-
 }
 

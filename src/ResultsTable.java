@@ -1,5 +1,7 @@
 import javax.swing.*;
-        import java.awt.*;
+import java.awt.*;
+
+//ZALĄŻEK KLASY WYSWIETLAJĄCY TABELĘ WYNIKÓW
 
 public class ResultsTable extends JFrame {
 
@@ -13,21 +15,9 @@ public class ResultsTable extends JFrame {
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                new MainWindow(locPoint(), getWidth(), getHeigth());
+                new MainWindow();
             }
         });
-    }
-
-    private Point locPoint() {
-        return this.getLocation();
-    }
-
-    public int getWidth() {
-        return this.getSize().width;
-    }
-
-    public int getHeigth() {
-        return this.getSize().height;
     }
 
 }

@@ -3,10 +3,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+//KALSA WYŚWIETLAJĄCA OKNO Z INFORMACJA O AUTORACH
+
 public class Authors  extends JFrame {
 
     public Authors(int Loc[]) {
-
         JPanel Header = createHeader();
         JPanel Content = createContent();
         JPanel Footer = createFooter(this);
@@ -19,7 +20,6 @@ public class Authors  extends JFrame {
         setSize(new Dimension(300, 200));
         setVisible(true);
         setLocation(setLoc(Loc));
-
     }
 
     private JPanel createFooter(JFrame frame) {
@@ -60,6 +60,7 @@ public class Authors  extends JFrame {
         return panel;
     }
 
+    //FUNKCJA POZWALAJĄCA NA WYŚRODKOWANIE OKNA
     private Point setLoc(int[] Loc) {
         Point result = new Point();
         Loc[2] = Loc[2]/2 - (this.getSize().width/2);

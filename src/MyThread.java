@@ -1,6 +1,6 @@
-
 import java.awt.Component;
 
+//WĄTEK OBSŁUGUJĄCY RYSOWANIE GRY
 
 public class MyThread implements  Runnable{
 
@@ -13,15 +13,13 @@ public class MyThread implements  Runnable{
     }
 
     public void run() {
-
         while (true) {
             component.repaint();
             try {
-                Thread.sleep(5);
+                Thread.sleep(30);
             } catch (Exception e) {
                 System.out.println("Wyjątek!");
             }
         }
-
     }
 }
