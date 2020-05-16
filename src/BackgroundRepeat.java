@@ -1,11 +1,11 @@
+import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
+import java.io.File;
 import java.io.IOException;
-import javax.swing.*;
 
-//KLASA POWTARZAJĄCA OBRAZ W CELU WYPEŁNIENIA TŁA
-
+/** KLASA POZWALJĄCA NA POWTARZANIE OBRAZU W CELU WYPEŁNIENIA TŁA */
 public class BackgroundRepeat {
 
     private BufferedImage tile;
@@ -13,7 +13,7 @@ public class BackgroundRepeat {
 
     public BackgroundRepeat(String imgPath){
         try {
-            tile = ImageIO.read(getClass().getResource(imgPath));
+            tile = ImageIO.read(new File(imgPath));
         } catch (IOException ex) {
             ex.printStackTrace();
         }

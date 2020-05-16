@@ -5,43 +5,44 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.Arrays;
 
-//OKNO ZAWIERAJĄCE GŁÓWNE MENU
 
+/** OKNO ZAWIERAJĄCE GŁÓWNE MENU */
 public  class MainWindow extends  JFrame {
 
-    private JButton playButton;
-    private JButton rulesButton;
-    private JButton resultTableButton;
-    private JButton authorsButton;
-    private JButton exitButton;
-    private JPanel Header;
-    private JPanel Content;
-    private JPanel Footer;
-    private JFrame MainWindow;
+    private final JFrame MainWindow;
 
     public MainWindow(){
-
-        Header = createHeader();
-        Content = createContent();
-        Footer = createFooter();
+        if(Client.getMode()) {
+            JOptionPane.showMessageDialog(this, "Gra w trybie online!");
+        }else {
+            JOptionPane.showMessageDialog(this, "Gra w trybie offline!");
+        }
+        JPanel header = createHeader();
+        JPanel content = createContent();
+        JPanel footer = createFooter();
 
         pack();
         setSize(new Dimension(800, 700));
 
         try {
-            BufferedImage myImage = ImageIO.read(new File("menu_background.jpg"));
-            this.setContentPane(new BackgroundImage(myImage, this));
+
+            BufferedImage myImage;
+            if (Client.getMode()) {
+                myImage = Client.getImage("menu_background.jpg");
+            }else {
+                myImage = ImageIO.read(new File("img/menu_background.jpg"));
+            }
+            this.setContentPane(new BackgroundImage(myImage));
         }catch (Exception e) {
             System.out.println("Blad obrazka!");
         }
 
         BorderLayout borderLayout = new BorderLayout(10,20);
         setLayout(borderLayout);
-        add(Header, BorderLayout.NORTH);
-        getContentPane().add(Content, BorderLayout.CENTER);
-        add(Footer, BorderLayout.SOUTH);
+        add(header, BorderLayout.NORTH);
+        getContentPane().add(content, BorderLayout.CENTER);
+        add(footer, BorderLayout.SOUTH);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
@@ -49,7 +50,7 @@ public  class MainWindow extends  JFrame {
     }
 
 
-    //TWORZY ODSTĘP I WYŚWIETLA NAZWĘ GRY
+    //TWORZY ODSTEP I WYSWIETLA NAZWE GRY
     private JPanel createHeader() {
         Color myColor = new Color(176, 196, 222);
         JPanel panel = new JPanel();
@@ -59,7 +60,7 @@ public  class MainWindow extends  JFrame {
         TextField.setForeground(myColor);
         TextField.setFont(font);
         TextField.setEditable(false);
-        TextField.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        TextField.setBorder(BorderFactory.createEmptyBorder());
         TextField.setOpaque(false);
         panel.add(TextField);
         panel.setOpaque(false);
@@ -69,11 +70,11 @@ public  class MainWindow extends  JFrame {
     //ZAWIERA WSZYSTKIE PRZYCISKI
     private JPanel createContent() {
         JPanel panel = new JPanel();
-        playButton = new JButton("Graj");
-        rulesButton = new JButton("Zasady");
-        resultTableButton = new JButton("Tabela wynikow");
-        authorsButton = new JButton("Autorzy");
-        exitButton = new JButton("Wyjdź");
+        JButton playButton = new JButton("Graj");
+        JButton rulesButton = new JButton("Zasady");
+        JButton resultTableButton = new JButton("Tabela wyników");
+        JButton authorsButton = new JButton("Autorzy");
+        JButton exitButton = new JButton("Wyjdź");
 
         BoxLayout boxlayout = new BoxLayout(panel, BoxLayout.Y_AXIS);
         panel.setLayout(boxlayout);
@@ -135,12 +136,12 @@ public  class MainWindow extends  JFrame {
         JPanel panel = new JPanel();
         Color myColor = new Color(176, 196, 222);
         panel.setLayout(new FlowLayout());
-        JTextField TextField = new JTextField("by Michał Ryszka and Wojciech Kowalski 2020");
+        JTextField TextField = new JTextField("by Michał Ryszka & Wojciech Kowalski 2020");
         Font font = new Font("Arial", Font.BOLD+Font.ITALIC,8);
         TextField.setFont(font);
         TextField.setForeground(myColor);
         TextField.setEditable(false);
-        TextField.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        TextField.setBorder(BorderFactory.createEmptyBorder());
         TextField.setOpaque(false);
         panel.add(TextField);
         panel.setOpaque(false);
@@ -149,7 +150,7 @@ public  class MainWindow extends  JFrame {
 
     //OKNO DIALOGOWE PODCZAS OPUSZCZNIA APLIKACJI
     private void Exit(JPanel panel){
-        if (JOptionPane.showConfirmDialog(panel,"Potwierdz jesli chcesz wyjśc.","Lunar Lander",
+        if (JOptionPane.showConfirmDialog(panel,"Potwierdź jeśli chcesz wyjść.","Lunar Lander",
                 JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION)
             System.exit(0);
     }
@@ -166,7 +167,10 @@ public  class MainWindow extends  JFrame {
 
     //WYŚWIETLA OKNO Z WYNIKAMI
     private void Results() {
-        new ResultsTable(this.getLocationOnScreen(), this.getSize().width, this.getSize().height);
-        this.dispose();
+        try {
+            new ResultsTable(centerFrame());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

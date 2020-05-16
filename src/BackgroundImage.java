@@ -1,12 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
 
-//WYŚWIETLANIE TŁA W MENU GŁÓWNYM
 
+/** KLASA ODPOWIEDZIALNA ZA WYŚWIETLANIE TŁA W MENU GŁÓWNYM */
 public class BackgroundImage extends JComponent {
-    private Image image;
+    final private Image image;
 
-    public BackgroundImage(Image image, JFrame frame) {
+    public BackgroundImage(Image image) {
         this.image = image;
 
     }

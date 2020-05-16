@@ -1,60 +1,51 @@
-import javax.imageio.ImageIO;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.io.File;
-import java.io.IOException;
-import java.awt.image.BufferedImage;
 
-//KLASA RYSUJĄCA POWIERZCHNIĘ PLANETY I DODATKOWE KOMPONENTY
 
+/** KLASA RYSUJĄCA POWIERZCHNIE PLANETY */
 public class DrawPlanet extends JPanel {
 
      protected int panelWidth, panelHeight;
-     int health = 3;
-     private BufferedImage lander;
-     private Polygon planet;
+     private int[] readX;
+     private int[] readY;
+     private int[] planetColor;
+     private int[] lands;
 
-     DrawPlanet(){
-          File landerImage = new File("lander.png");
-          try {
-               lander = ImageIO.read(landerImage);
-          }catch(IOException e){
-               e.printStackTrace();
-          }
+     DrawPlanet(int[] x, int[] y, int[] color, int[] landIN){
+         readX = x;
+         readY = y;
+         planetColor = color;
+         lands = landIN;
      }
 
-
-   public void paintPlanet(Graphics g, int readX[], int readY[], int width, int height, int[] planetColor, JPanel panel, double scaleY, double scaleX) {
+   public void paintPlanet(Graphics g, JPanel panel, double scaleY, double scaleX) {
         Graphics2D g2d = (Graphics2D) g;
 
         panelWidth = panel.getWidth();
         panelHeight = panel.getHeight();
 
-        //SKALOWANIE
+        //SKALOWANIE OKNA GRY
         AffineTransform at = new AffineTransform();
         at.scale(scaleX, scaleY);
         g2d.setTransform(at);
-
-        new Color(planetColor[0], planetColor[1], planetColor[2]);
-        g2d.fillPolygon(readX, readY, 18);
-        g2d.setColor(Color.white);
-        g2d.setFont(new Font("TimesRoman", Font.PLAIN + Font.BOLD, 50));
-        g2d.drawString("#1",(int) (width*0.48), (int) (height*0.1));
-        g2d.setFont(new Font("TimesRoman", Font.PLAIN + Font.BOLD, 20));
-        g2d.drawString("12345", width - 100,70);
-        g2d.setColor(Color.red);
-
-        for(int i = 0; i < health; i++){
-             double x = i*0.05 + 0.01;
-             g2d.drawImage(lander, (int) (width*x), (int) (height*0.95), this);
-        }
-
-        g2d.fillRect(width - 120,20, 100,20);
-
+        g2d.setColor(new Color(planetColor[0], planetColor[1], planetColor[2]));
+        g2d.fillPolygon(readX, readY, readY.length);
+        drawLands(g2d);
    }
 
-   public void setHealth(int h){
-        health = h;
+   public void drawLands(Graphics2D g2d){
+       g2d.setColor(Color.RED);
+       for(int i=0; i<lands.length; i+=3){
+           g2d.fillRect(lands[i], lands[i+1], lands[i+2],8);
+       }
    }
+
+    public void loadData(int[] readXPlanet, int[] readYPlanet, int[] readPlanetColor, int[] readLands) {
+        readX = readXPlanet;
+        readY = readYPlanet;
+        planetColor = readPlanetColor;
+        lands = readLands;
+    }
 }

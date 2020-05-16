@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-//KALSA WYŚWIETLAJĄCA OKNO Z INFORMACJA O AUTORACH
+/** KALSA WYŚWIETLAJĄCA OKNO Z INFORMACJAMI O AUTORACH APLIKACJI*/
 
 public class Authors  extends JFrame {
 
@@ -24,7 +24,7 @@ public class Authors  extends JFrame {
 
     private JPanel createFooter(JFrame frame) {
         JPanel panel = new JPanel();
-        JButton BackButton = new JButton("Wroc");
+        JButton BackButton = new JButton("Wróć");
         panel.add(BackButton);
         BackButton.addActionListener(new ActionListener() {
             @Override
@@ -37,7 +37,7 @@ public class Authors  extends JFrame {
 
     private JPanel createContent() {
         JPanel panel = new JPanel();
-        JLabel Author1 = new JLabel("Michal Ryszka, ");
+        JLabel Author1 = new JLabel("Michał Ryszka, ");
         JLabel Author2 = new JLabel("Wojciech Kowalski");
         JLabel Place = new JLabel("Politechnika Warszawska 2020");
         Font font2 = new Font("Arial", Font.ITALIC,15);
@@ -60,7 +60,7 @@ public class Authors  extends JFrame {
         return panel;
     }
 
-    //FUNKCJA POZWALAJĄCA NA WYŚRODKOWANIE OKNA
+    /** FUNKCJA POZWALAJĄCA NA WYŚRODKOWANIE OKNA */
     private Point setLoc(int[] Loc) {
         Point result = new Point();
         Loc[2] = Loc[2]/2 - (this.getSize().width/2);

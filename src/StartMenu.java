@@ -6,15 +6,15 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Enumeration;
 
-//KLASA OKNA WSTĘPNEGO DO GRY
 
+/** KLASA OKNA USTAWIEŃ GRY */
 public class StartMenu  extends JFrame {
 
     private JTextField SetNick;
-    private JFrame MainWindow;
-    private ButtonGroup DifficultGroup;
+    private final JFrame MainWindow;
+    private ButtonGroup DifficultGroup, MusicGroup;
 
-    public StartMenu(int Loc[], JFrame frame) {
+    public StartMenu(int[] Loc, JFrame frame) {
 
         JPanel Header = createHeader();
         JPanel Content = createContent();
@@ -25,7 +25,7 @@ public class StartMenu  extends JFrame {
         getContentPane().add(Content, BorderLayout.CENTER);
         add(Footer, BorderLayout.SOUTH);
         pack();
-        setSize(new Dimension(300, 150));
+        setSize(new Dimension(400, 200));
         setVisible(true);
         setLocation(setLoc(Loc));
         MainWindow = frame;
@@ -33,7 +33,7 @@ public class StartMenu  extends JFrame {
 
     private JPanel createFooter(JFrame thisFrame) {
         JPanel panel = new JPanel();
-        JButton BackButton = new JButton("Wroc");
+        JButton BackButton = new JButton("Wróć");
         panel.add(BackButton);
         JButton Next = new JButton("Rozpocznij gre!");
         panel.add(Next);
@@ -60,20 +60,40 @@ public class StartMenu  extends JFrame {
 
     private JPanel createContent() {
         JPanel panel = new JPanel();
-        JRadioButton Easy = new JRadioButton("Latwy");
-        JRadioButton Medium = new JRadioButton("Sredni");
+        JRadioButton Easy = new JRadioButton("Łatwy");
+        JRadioButton Medium = new JRadioButton("Średni");
         JRadioButton Hard = new JRadioButton("Trudny");
+        JRadioButton MusicOn = new JRadioButton("Włączona");
+        JRadioButton MusicOff = new JRadioButton("Wyłączona");
         DifficultGroup = new ButtonGroup();
         DifficultGroup.add(Easy);
         DifficultGroup.add(Medium);
         DifficultGroup.add(Hard);
+        MusicGroup = new ButtonGroup();
+        MusicGroup.add(MusicOn);
+        MusicGroup.add(MusicOff);
         Font font2 = new Font("Arial", Font.BOLD,15);
         Easy.setFont(font2);
         Medium.setFont(font2);
         Hard.setFont(font2);
+        JLabel DifficultLabel = new JLabel("Poziom trudności: ");
+        DifficultLabel.setForeground(Color.GRAY);
+        Font font = new Font("Arial", Font.BOLD+Font.ITALIC,15);
+        DifficultLabel.setFont(font);
+        panel.add(DifficultLabel);
         panel.add(Easy);
         panel.add(Medium);
         panel.add(Hard);
+        JLabel MusicLabel = new JLabel("Muzyka: ");
+        MusicLabel.setForeground(Color.GRAY);
+        MusicLabel.setFont(font);
+        panel.add(MusicLabel);
+        panel.add(MusicOn);
+        panel.add(MusicOff);
+        JLabel MusicOptions = new JLabel("Sterowanie muzyka podczas gry: klawisz \"M\" ");
+        MusicOptions.setFont(font);
+        MusicOptions.setForeground(Color.GRAY);
+        panel.add(MusicOptions);
         return panel;
     }
 
@@ -98,7 +118,7 @@ public class StartMenu  extends JFrame {
         return panel;
     }
 
-    //OBLICZA POZYCJĘ OKNA DO WYŚRODKOWANIA
+    //OBLICZA POZYCJE OKNA DO WYSRODKOWANIA
     private Point setLoc(int[] Loc) {
         Point result = new Point();
         Loc[2] = Loc[2]/2 - (this.getSize().width/2);
@@ -108,7 +128,7 @@ public class StartMenu  extends JFrame {
         return result;
     }
 
-    //SPRAWDZA CZY NAZWA GRACZA ZOSTAŁA WPISANA
+    //SPRAWDZA CZY NAZWA GRACZA ZOSTALA WPISANA
     public Boolean isnotEmpty(JTextField Nick){
         if(Nick.getText().trim().isEmpty()){
             SetNick.setBackground(new Color(255, 51, 102));
@@ -131,8 +151,25 @@ public class StartMenu  extends JFrame {
         return false;
     }
 
-    private void GameWindow(JFrame frame) {
-        new GameWindow(frame.getLocationOnScreen());
+    public void GameWindow(JFrame frame) {
+        new GameWindow(frame.getLocationOnScreen(), getNick(), getSelectedButtonText(DifficultGroup), getSelectedButtonText(MusicGroup));
     }
+
+
+    public String getNick(){
+        return SetNick.getText();
+    }
+
+    public String getSelectedButtonText(ButtonGroup buttonGroup) {
+        for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons.hasMoreElements();) {
+            AbstractButton button = buttons.nextElement();
+
+            if (button.isSelected()) {
+                return button.getText();
+            }
+        }
+        return null;
+    }
+
 }
 
