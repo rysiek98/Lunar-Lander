@@ -6,3 +6,7 @@ Nick gracza: Test uzyskane punkty: 1010 poziom trudności: Łatwy
 Nick gracza: Test uzyskane punkty: 1040 poziom trudności: Łatwy
 Nick gracza: TEST1 uzyskane punkty: 2140 poziom trudności: Łatwy
 Nick gracza: Test uzyskane punkty: 1623743 poziom trudności: Łatwy
+Nick gracza: TEST uzyskane punkty: 920 poziom trudności: Łatwy
+Nick gracza: TEST uzyskane punkty: 4583 poziom trudności: Łatwy
+Nick gracza: TEST uzyskane punkty: 0 poziom trudności: Łatwy
+Nick gracza: TEst uzyskane punkty: 0 poziom trudności: Łatwy

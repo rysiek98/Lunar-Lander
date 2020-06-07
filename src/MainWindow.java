@@ -13,11 +13,7 @@ public  class MainWindow extends  JFrame {
     private final JFrame MainWindow;
 
     public MainWindow(){
-        if(Client.getMode()) {
-            JOptionPane.showMessageDialog(this, "Gra w trybie online!");
-        }else {
-            JOptionPane.showMessageDialog(this, "Gra w trybie offline!");
-        }
+
         JPanel header = createHeader();
         JPanel content = createContent();
         JPanel footer = createFooter();
@@ -28,14 +24,14 @@ public  class MainWindow extends  JFrame {
         try {
 
             BufferedImage myImage;
-            if (Client.getMode()) {
+            if (Client.Online()) {
                 myImage = Client.getImage("menu_background.jpg");
             }else {
                 myImage = ImageIO.read(new File("img/menu_background.jpg"));
             }
             this.setContentPane(new BackgroundImage(myImage));
         }catch (Exception e) {
-            System.out.println("Blad obrazka!");
+            System.err.println("MainWindow błąd tła " + e);
         }
 
         BorderLayout borderLayout = new BorderLayout(10,20);
@@ -167,10 +163,6 @@ public  class MainWindow extends  JFrame {
 
     //WYŚWIETLA OKNO Z WYNIKAMI
     private void Results() {
-        try {
-            new ResultsTable(centerFrame());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        new ResultsTable(centerFrame());
     }
 }

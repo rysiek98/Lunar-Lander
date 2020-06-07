@@ -13,16 +13,27 @@ import java.util.Arrays;
 public class Server {
     static ArrayList<String> results;
     static private ArrayList<String> levels;
-    Server(Socket socket) throws Exception{
-    }
+    ServerWindow serverWindow;
+    boolean flag;
+    Socket socket;
+    ServerSocket serverSocket;
+    InputStream is;
+    OutputStream os;
+
 
     public static void main(String[] args) throws Exception{
+        new Server();
+    }
+
+    Server() throws Exception{
+        flag = true;
+        serverWindow = new ServerWindow(this);
         InetAddress localHost = InetAddress.getLocalHost();
-
         System.out.println("localHost.getHostAddress() = " + localHost.getHostAddress());
+        serverWindow.loadData("localHost.getHostAddress() = " + localHost.getHostAddress());
         System.out.println("localHost.getHostName() = " + localHost.getHostName());
+        serverWindow.loadData("localHost.getHostName() = " + localHost.getHostName());
 
-        ServerSocket serverSocket;
         try {
             serverSocket = new ServerSocket(readPort("serverConfig.txt"));
             readLevelsName("serverConfig.txt");
@@ -31,24 +42,27 @@ public class Server {
             return;
         }
 
-
-        boolean flag = true;
-
         while (flag) {
             try {
-                Socket socket = serverSocket.accept();
-                InputStream is = socket.getInputStream();
+                socket = serverSocket.accept();
+                System.out.println("TEST");
+                is = socket.getInputStream();
                 BufferedReader br = new BufferedReader(new InputStreamReader(is));
-                OutputStream os = socket.getOutputStream();
+                os = socket.getOutputStream();
                 PrintWriter pw = new PrintWriter(os, true);
                 String fromClient = br.readLine();
                 System.out.println("From client: [" + fromClient + "]");
+                serverWindow.loadData("From client: [" + fromClient + "]");
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
                 switch(fromClient) {
 
                     case "Login":
                         pw.println("Logged");
+                        break;
+
+                    case "Ping":
+                        pw.println("Ping");
                         break;
 
                     case "sendResults":
@@ -58,6 +72,7 @@ public class Server {
                             readResults();
                         }catch (Exception e) {
                             System.out.println("Server: BRAK BAZY WYNIKOW!");
+                            serverWindow.loadData("Server: BRAK BAZY WYNIKOW!");
                             pw.println("NOT FOUND");
                             System.err.println("Server exception: " + e);
                         }
@@ -66,10 +81,13 @@ public class Server {
                         for (int i = 0; i < rsize; i++){
                             fromClient = br.readLine();
                             System.out.println("From client: [" + fromClient + "]");
+                            serverWindow.loadData("From client: [" + fromClient + "]");
                             System.out.println(results.get(i));
+                            serverWindow.loadData(results.get(i));
                             pw.println(results.get(i));
                         }
                         System.out.println("Server: END");
+                        serverWindow.loadData("Server: END");
                         pw.print("END");
                         pw.println();
 
@@ -80,19 +98,24 @@ public class Server {
                         pw.println();
                         fromClient = br.readLine();
                         System.out.println("From client: [" + fromClient + "]");
+                        serverWindow.loadData("From client: [" + fromClient + "]");
                         if(levels.contains(fromClient)) {
                             String[] table = readLevel(fromClient);
                             for (int i = 0; i < table.length; i++) {
                                 System.out.println("Server: "+table[i]);
+                                serverWindow.loadData("Server: "+table[i]);
                                 pw.println(table[i]);
                                 fromClient = br.readLine();
                                 System.out.println("From client: [" + fromClient + "]");
+                                serverWindow.loadData("From client: [" + fromClient + "]");
                             }
                             System.out.println("Server: END");
+                            serverWindow.loadData("Server: END");
                             pw.print("END");
                             pw.println();
                         }else{
                             System.out.println("Server: BRAK ZADANEGO POZIOMU!");
+                            serverWindow.loadData("Server: BRAK ZADANEGO POZIOMU!");
                             pw.println("NOT FOUND");
                         }
                         break;
@@ -114,6 +137,7 @@ public class Server {
                         pw.println();
                         fromClient = br.readLine();
                         System.out.println("From client: [" + fromClient + "]");
+                        serverWindow.loadData("From client: [" + fromClient + "]");
                         String[] text = fromClient.split("\\.");
                         BufferedImage image = ImageIO.read(new File("img/"+fromClient));
                         ImageIO.write(image, text[1], baos);
@@ -129,10 +153,13 @@ public class Server {
                             pw.print(levels.get(i));
                             pw.println();
                             System.out.println("Server: "+levels.get(i));
+                            serverWindow.loadData("Server: "+levels.get(i));
                             fromClient = br.readLine();
                             System.out.println("From client: [" + fromClient + "]");
+                            serverWindow.loadData("From client: [" + fromClient + "]");
                         }
                         System.out.println("Server: END");
+                        serverWindow.loadData("Server: END");
                         pw.print("END");
                         pw.println();
                         break;
@@ -140,15 +167,18 @@ public class Server {
                     default:
                         pw.println("Server ERROR");
                         System.out.print("Server error!");
+                        serverWindow.loadData("Server error!");
                 }
 
                 socket.close();
             } catch (Exception e) {
                 System.err.println("Server exception: " + e);
+                serverWindow.loadData("Server while exception: " + e);
             }
         }
     }
 
+    /** Metoda odczytująca dane poziomu z pliku */
     static String[] readLevel(String lvl) throws Exception{
         String[] level = {"", "", "", "", "", "", "", "", ""};
         File file = new File("levelConfig/"+lvl+".txt");
@@ -161,6 +191,7 @@ public class Server {
         return level;
     }
 
+    /** Metoda odczytująca wyniki graczy z pliku txt */
     static void readResults() throws Exception{
         results = new ArrayList<String>();
         BufferedReader br = new BufferedReader(new FileReader("TabelaWynikow.txt"));
@@ -175,6 +206,7 @@ public class Server {
         br.close();
     }
 
+    /** Metoda dopisująca wynik gracza do pliku z wynikami */
     public static void saveResult(String name, int points, String diffLevel) throws Exception {
         FileWriter file = new FileWriter("TabelaWynikow.txt", true);
         BufferedWriter out = new BufferedWriter(file);
@@ -183,6 +215,7 @@ public class Server {
         file.close();
     }
 
+    /** Metoda odczytuje numer portu serwera z serverConfig */
     static int readPort(String path) throws Exception{
         String[] text;
         File file = new File(path);
@@ -195,6 +228,7 @@ public class Server {
         return Integer.parseInt(text[1]);
     }
 
+    /** Metoda odczytująca z pliku serverConfige dostępne poziomy */
      static void readLevelsName(String path) throws Exception{
         String[] text;
         File file = new File(path);
@@ -207,20 +241,20 @@ public class Server {
         levels =new ArrayList<String>(Arrays.asList(text[1].split(",")));
     }
 
-    static void editLevelStructure(String level, String[] data)throws Exception{
-        FileWriter file = new FileWriter("levelConfig/"+level+".txt", true);
-        BufferedWriter out = new BufferedWriter(file);
-        out.write("Planet OX positions[int[]]="+data[0]+"\r\n");
-        out.write("Planet OY positions[int[]]="+data[1]+"\r\n");
-        out.write("Planet gravity[int]="+data[2]+"\r\n");
-        out.write("Meteors[int]="+data[3]+"\r\n");
-        out.write("Planet colorRGB[int[]]="+data[4]+"\r\n");
-        out.write("Lander start pos[int[]]="+data[5]+"\r\n");
-        out.write("Lands pos. & width[int[]]="+data[6]+"\r\n");
-        out.write("Planet vmax[int]="+data[7]+"\r\n");
-        out.write("Planet amax[double]="+data[8]+"\r\n");
-        out.close();
-        file.close();
-    }
+    public void stopServer() throws IOException {
+
+         flag = false;
+        try {
+            if (os != null)
+                os.close();
+            if (is != null)
+                is.close();
+        } catch (IOException e) {
+            System.err.println("Server stopServer exception: " + e);
+        }
+        
+        if (!serverSocket.isClosed())
+            serverSocket.close();
+        }
 
 }

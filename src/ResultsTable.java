@@ -14,7 +14,7 @@ public class ResultsTable extends JFrame {
 
     ArrayList<String> results;
 
-    public ResultsTable(int[] Loc) throws Exception {
+    public ResultsTable(int[] Loc){
 
 
         JLabel Label = new JLabel("Tabela wyników");
@@ -63,7 +63,10 @@ public class ResultsTable extends JFrame {
 
     private void loadData() {
         try {
-            if (!Client.getMode()) {
+            if (Client.Online()) {
+                results = Client.getResultData();
+
+            } else {
                 results = new ArrayList<String>();
                 BufferedReader br = new BufferedReader(new FileReader("TabelaWynikow.txt"));
                 String textLine = br.readLine();
@@ -73,8 +76,6 @@ public class ResultsTable extends JFrame {
                     textLine = br.readLine();
                 } while (textLine != null);
                 br.close();
-            } else {
-                results = Client.getResultData();
             }
 
         } catch (Exception e) {

@@ -44,7 +44,7 @@ public class GameWindow extends JFrame {
 
     public GameWindow(Point Loc, String nick, String difLevel, String musicSettings) {
         //DODAWANIE SCIEZEK DO PLIKOW KONF. POSZCZEGOLNYCH MAP
-        if(!Client.getMode()){
+        if(!Client.Online()){
             levels = new ArrayList<String>();
             levels.add("level1");
             levels.add("level2");
@@ -81,8 +81,7 @@ public class GameWindow extends JFrame {
         try {
             game.playSound(musicSetting());
         } catch (LineUnavailableException | IOException | UnsupportedAudioFileException e) {
-            e.printStackTrace();
-            System.out.println("Blad odtwarzania dzwieku!");
+            System.err.println("Blad odtwarzania dzwieku! " + e);
         }
 
         Game.setLevelText("#"+ level);
@@ -98,7 +97,7 @@ public class GameWindow extends JFrame {
             }
         });
         points = 0;
-
+        newGame();
         new MyThread(game); //TU TWORZY SIE NOWY WATEK OBSLUGUJACY RYSOWANIE
     }
 
@@ -123,6 +122,7 @@ public class GameWindow extends JFrame {
             Control.setFuel(100);
             Game.setLevelText("#" + level);
             MyThread.resume();
+            Game.endGame(false);
         }else {
             MyThread.pause();
             Game.endGame(true);
@@ -130,6 +130,7 @@ public class GameWindow extends JFrame {
             saveResults();
         }
     }
+
     void nextLevel(){
         System.out.println("NextLevel");
         countPoints();
@@ -161,10 +162,10 @@ public class GameWindow extends JFrame {
         }
     }
     private void loadData(String path){
-        if (!Client.getMode()) {
-            loadDataFromFile(path);
-        }else {
+        if (Client.Online()) {
             loadDataFromServer(path);
+        }else {
+            loadDataFromFile(path);
         }
     }
 
@@ -208,7 +209,7 @@ public class GameWindow extends JFrame {
             vYMax = File.getvYMax();
             aPlanet = File.getaPlanet();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("GameWindow loadDataFromFile " + e);
         }
         //WCZYTYWANIE OBRAZKU STATKU
         File landerImage = new File("img/lander.png");
@@ -219,7 +220,7 @@ public class GameWindow extends JFrame {
             musicON = ImageIO.read(musicONImage);
             musicOFF = ImageIO.read(musicOFFImage);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("GameWindow loadDataFromFile " + e);
         }
 
         //WCZYTYWANIE OBRAZKU METEORU
@@ -228,7 +229,7 @@ public class GameWindow extends JFrame {
         try {
             meteorPNG = ImageIO.read(meteorImage);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("GameWindow loadDataFromFile " + e);
         }
 
 
@@ -239,7 +240,7 @@ public class GameWindow extends JFrame {
             try {
                 explosion.add(ImageIO.read(explosionGif));
             } catch (IOException e) {
-                e.printStackTrace();
+                System.err.println("GameWindow loadDataFromFile " + e);
             }
         }
     }
@@ -268,13 +269,13 @@ public class GameWindow extends JFrame {
 
     public void saveResults(){
         try {
-            if (!Client.getMode()) {
+            if (!Client.Online()) {
                 LoadingLevel.saveResult(Nick, points, DifficultLevel);
             }else {
                 Client.setResultData(Nick, points, DifficultLevel);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("GameWindow saveResult " + e);
         }
     }
 

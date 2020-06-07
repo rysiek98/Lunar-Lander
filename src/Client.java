@@ -16,7 +16,8 @@ public class Client extends JFrame {
 
 
     private static JTextField ipAddress, port;
-    private static boolean mode;
+    private static Socket socket;
+    private static boolean state;
 
     public Client() {
         JPanel Header = createHeader();
@@ -31,7 +32,7 @@ public class Client extends JFrame {
         setSize(new Dimension(280, 200));
         setVisible(true);
         setLocationRelativeTo(null);
-        mode = false;
+        state = false;
     }
 
     private JPanel createFooter() {
@@ -97,7 +98,7 @@ public class Client extends JFrame {
     public static void connectToServer(){
 
         try {
-            Socket socket = new Socket(getIP(), getPort());
+            socket = new Socket(getIP(), getPort());
             OutputStream os = socket.getOutputStream();
             PrintWriter pw = new PrintWriter(os, true);
             InputStream is;
@@ -108,19 +109,58 @@ public class Client extends JFrame {
             br = new BufferedReader(new InputStreamReader(is));
             if(br.readLine().equals("Logged")){
                 System.out.println("Connect - Online Mode Active");
-                mode = true;
+                state = true;
+
             }else{
                 System.out.println("Not connected - Offline Mode Active");
+                state = false;
             }
 
            socket.close();
         } catch (Exception e) {
-            System.err.println("Client exception: " + e);
+            System.err.println("Client connectToServer exception: " + e);
         }
     }
 
-    public static boolean getMode(){
-        return mode;
+    public static boolean Online(){
+        if(state) {
+            try {
+                socket = new Socket(getIP(), getPort());
+                socket.setSoTimeout(50);
+                OutputStream os = socket.getOutputStream();
+                PrintWriter pw = new PrintWriter(os, true);
+                InputStream is;
+                BufferedReader br;
+                pw.print("Ping");
+                pw.println();
+                is = socket.getInputStream();
+                br = new BufferedReader(new InputStreamReader(is));
+                if (br.readLine().equals("Ping")) {
+                    socket.close();
+                    return true;
+                } else {
+                    try {
+                        if (os != null)
+                            os.close();
+                        if (is != null)
+                            is.close();
+                    } catch (IOException e) {
+                        System.err.println("OS/IS exception: " + e);
+                    }
+
+                    if (!socket.isClosed())
+                        socket.close();
+                    state = false;
+                    return false;
+                }
+            } catch (Exception e) {
+                System.err.println("Client ONLINE exception: " + e);
+                state = false;
+                return false;
+            }
+        }else {
+            return false;
+        }
     }
 
     /** METODA POZWALA POBRAĆ OBRAZEK Z SERWERA*/
@@ -154,7 +194,7 @@ public class Client extends JFrame {
             return  image;
 
         } catch (Exception e) {
-            System.err.println("Client exception: " + e);
+            System.err.println("Client getImage exception: " + e);
         }
 
         return  null;
@@ -198,7 +238,7 @@ public class Client extends JFrame {
 
             socket.close();
         } catch (Exception e) {
-            System.err.println("Client exception: " + e);
+            System.err.println("Client getLevel exception: " + e);
         }
         return  data;
     }
@@ -243,7 +283,7 @@ public class Client extends JFrame {
 
             socket.close();
         } catch (Exception e) {
-            System.err.println("Client exception: " + e);
+            System.err.println("Client getResultData exception: " + e);
         }
         return  data;
     }
@@ -282,7 +322,7 @@ public class Client extends JFrame {
             }
             socket.close();
         } catch (Exception e) {
-            System.err.println("Client exception: " + e);
+            System.err.println("Client setResultData exception: " + e);
         }
 
     }
@@ -313,7 +353,7 @@ public class Client extends JFrame {
 
             socket.close();
         } catch (Exception e) {
-            System.err.println("Client exception: " + e);
+            System.err.println("Client getLevelList exception: " + e);
         }
         return data;
     }
