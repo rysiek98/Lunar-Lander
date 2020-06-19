@@ -9,7 +9,7 @@ Projekt tworzony wspólnie z [kovalskj](https://github.com/kovalskj)
 
 [ENG]
 
-The project is still modified, but is ready to play!!!
+The project is ready to play!!!
 
 Main goal is to create ourself version of popular game Lunar Lander.
 An additional function is a Client-Server structure added to upload map configure files and images from server to client. 
