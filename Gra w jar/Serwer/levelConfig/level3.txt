@@ -1,9 +1,0 @@
-Planet OX positions[int]=0 100 160 240 320 400 450 560 640 720 800 900 950 1040 1120 1200 1280 1280
-Planet OY positions[int]=720 570 520 570 420 520 520 420 370 420 620 620 540 520 470 520 420 720
-Planet gravity[int]=3
-Meteors[int]=3
-Planet colorRGB[int[]]=106 106 106
-Lander start pos[int[]]=730 20
-Lands pos. & width[int[]]=400 512 50 800 612 100
-Planet vmax[int]=8
-Planet amax[double]=0.033
