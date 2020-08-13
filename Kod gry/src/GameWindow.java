@@ -39,7 +39,7 @@ public class GameWindow extends JFrame implements WindowLocation{
     private int vYMax; //MAX PREDKOSC STATKU NA DANEJ PLANECIE
     private double aPlanet; //OPOR NA DANEJ PLANECIE (DO ZWALNIANIA STATKU W OX)
     private int level;
-    private ArrayList<String> levels = null;
+    private final ArrayList<String> levels;
 
     /** Konstruktor klasy
      * @param Loc tablica 4 wartości Integer [współrzędna x, współrzędna y, szerokość okna, wysokość okna]
@@ -47,17 +47,21 @@ public class GameWindow extends JFrame implements WindowLocation{
      * @param difLevel poziom trudności
      * @param musicSettings ustawienie muzyki
      */
-    public GameWindow(int[] Loc, String nick, String difLevel, String musicSettings){
+    public GameWindow(int[] Loc, String nick, String difLevel, String musicSettings) {
         //DODAWANIE SCIEZEK DO PLIKOW KONF. POSZCZEGOLNYCH MAP
         if(!Client.Online()){
-            try {
-                levels = LoadingLevel.readLevelsName("levelConfig/config.txt");
-                
-            }catch (Exception e) {
-                System.err.println("Create server socket: " + e);
-            }
+            levels = new ArrayList<String>();
+            levels.add("level1");
+            levels.add("level2");
+            levels.add("level3");
+            levels.add("level4");
+            levels.add("level5");
+            levels.add("level6");
+            levels.add("level7");
+            levels.add("level8");
+            levels.add("level9");
         }else{
-            levels = new ArrayList<>(Client.getLevelList());
+            levels = new ArrayList<String>(Client.getLevelList());
         }
         //WCZYTYWANIE DANYCH MAPY
         loadData(levels.get(0));

@@ -24,52 +24,52 @@ public class LoadingLevel {
 
 		BufferedReader br = new BufferedReader(new FileReader(file, UTF_8));
 		 
-		String readPosition = br.readLine().split("=")[1];
-		String readElevation = br.readLine().split("=")[1];
-		String readGravity = br.readLine().split("=")[1];
-		String readMeteorites = br.readLine().split("=")[1];
-		String readPlanetColorRGB = br.readLine().split("=")[1];
-		String readLanderStartPosition = br.readLine().split("=")[1];
-		String readLands = br.readLine().split("=")[1];
-		String readvYMax = br.readLine().split("=")[1];
-		String readaPlanet = br.readLine().split("=")[1];
+		String st1 = br.readLine().split("=")[1];;
+		String st2 = br.readLine().split("=")[1];;
+		String st3 = br.readLine().split("=")[1];;
+		String st4 = br.readLine().split("=")[1];;
+		String st5 = br.readLine().split("=")[1];;
+		String st6 = br.readLine().split("=")[1];;
+		String st7 = br.readLine().split("=")[1];;
+		String st8 = br.readLine().split("=")[1];;
+		String st9 = br.readLine().split("=")[1];;
 		br.close();
 
-		String[] position_str = readPosition.split(" ");
+		String[] position_str = st1.split(" ");
 
 		for (String item : position_str) {
 			position.add(Integer.parseInt(item));
 		}
 
-		String[] elevation_str = readElevation.split(" ");
+		String[] elevation_str = st2.split(" ");
 
 		for (String value : elevation_str) {
 			elevation.add(Integer.parseInt(value));
 		}
 
-		gravity = Integer.parseInt(readGravity);
+		gravity = Integer.parseInt(st3);
 		
-		meteorites = Integer.parseInt(readMeteorites);
+		meteorites = Integer.parseInt(st4);
 
-		String[] planetColorRGB_str = readPlanetColorRGB.split(" ");
+		String[] planetColorRGB_str = st5.split(" ");
 		for(int i = 0; i < 3; i++) {
 			planetColorRGB[i] = Integer.parseInt(planetColorRGB_str[i]);
 		}
 
-		String[] landerStartPosition_str = readLanderStartPosition.split(" ");
+		String[] landerStartPosition_str = st6.split(" ");
 		for(int i = 0; i < 2; i++) {
 			landerStartPosition[i] = Integer.parseInt(landerStartPosition_str[i]);
 		}
 
-		String[] lands_str = readLands.split(" ");
+		String[] lands_str = st7.split(" ");
 
 		for (String s : lands_str) {
 			lands.add(Integer.parseInt(s));
 		}
 
-		vYMax = Integer.parseInt(readvYMax);
+		vYMax = Integer.parseInt(st8);
 
-		aPlanet = Double.parseDouble(readaPlanet);
+		aPlanet = Double.parseDouble(st9);
 
 	}
 
@@ -194,10 +194,10 @@ public class LoadingLevel {
 
 	/** Metoda odczytująca wyniki graczy z pliku txt
 	 * @param path ścieżka do pliku txt z wynikami
-	 * @return  zwraca ArrayList z wynikami
+	 * @return zwraca ArrayList<String> z wynikami
 	 */
 	static ArrayList<String> readResults(String path) throws Exception{
-		ArrayList<String> results = new ArrayList<>();
+		ArrayList<String> results = new ArrayList<String>();
 		BufferedReader br = new BufferedReader(new FileReader(path, UTF_8));
 
 		String textLine = br.readLine();
@@ -214,7 +214,6 @@ public class LoadingLevel {
 	/** Metoda odczytuje numer portu serwera z serverConfig
 	 * @param path ścieżka do pliku txt z wynikami
 	 * @return zwraca numer portu */
-
 	static int readPort(String path) throws Exception{
 		String[] text;
 		File file = new File(path);
@@ -229,8 +228,7 @@ public class LoadingLevel {
 
 	/** Metoda odczytująca z pliku serverConfige dostępne poziomy
 	 * @param path ścieżka do pliku txt z wynikami
-	 * @return zwraca ArrayList z nazwami poziomów*/
-
+	 * @return zwraca ArrayList<String> z nazwami poziomów*/
 	static ArrayList<String> readLevelsName(String path) throws Exception{
 		String[] text;
 		File file = new File(path);
@@ -240,7 +238,7 @@ public class LoadingLevel {
 			text = str.split("=");
 		}while (!text[0].equals("Levels"));
 		br.close();
-		ArrayList<String> levels =new ArrayList<>(Arrays.asList(text[1].split(",")));
+		ArrayList<String> levels =new ArrayList<String>(Arrays.asList(text[1].split(",")));
 		return levels;
 	}
 }
