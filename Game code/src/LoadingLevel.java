@@ -191,7 +191,6 @@ public class LoadingLevel {
 
 	/** Metoda odczytująca wyniki graczy z pliku txt
 	 * @param path ścieżka do pliku txt z wynikami
-	 * @return zwraca ArrayList<String> z wynikami
 	 */
 	static ArrayList<String> readResults(String path) throws Exception{
 
@@ -226,7 +225,7 @@ public class LoadingLevel {
 
 	/** Metoda odczytująca z pliku serverConfige dostępne poziomy
 	 * @param path ścieżka do pliku txt z wynikami
-	 * @return zwraca ArrayList<String> z nazwami poziomów*/
+	 */
 	static ArrayList<String> readLevelsName(String path) throws Exception{
 		String[] text;
 		File file = new File(path);
