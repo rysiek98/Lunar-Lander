@@ -77,7 +77,7 @@ public class GameWindow extends JFrame implements WindowLocation{
         level = 1;
         physic = new Physic(xLander, yLander, readLands, readXPlanet, readYPlanet, this, gravity, meteorites, vYMax, aPlanet);
         drawPlanet = new DrawPlanet(readXPlanet, readYPlanet,  readPlanetColor, readLands);
-        game = new Game(new DrawMeteorite(meteorPNG, explosion), drawPlanet, new DrawShip(lander),getSize().width, getSize().height, lander, physic, difLevel, health, points, musicON, musicOFF, musicSetting(), this);
+        game = new Game(new DrawMeteorite(meteorPNG, explosion), drawPlanet, new DrawShip(lander),getSize().width, getSize().height, lander, physic, difLevel, health, points, musicON, musicOFF,this);
 
         try {
             Sound.playSound(musicSetting());

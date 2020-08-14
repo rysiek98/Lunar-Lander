@@ -23,7 +23,7 @@ public class Game extends JPanel {
     private int iterator;
 
     /** Konstruktor klasy. Jako parametry przyjmuje obiekty z których stworzona jest gra. */
-    Game(DrawMeteorite MeteoriteIN, DrawPlanet PlanetIN, DrawShip ShipIN, int widthIN, int heightIN, BufferedImage landerIN, Physic physicIN, String difLevel, int  healthIN, int pointsIN, BufferedImage musicONIN, BufferedImage musicOFFIN, boolean musicSettings, GameWindow gameWindow){
+    Game(DrawMeteorite MeteoriteIN, DrawPlanet PlanetIN, DrawShip ShipIN, int widthIN, int heightIN, BufferedImage landerIN, Physic physicIN, String difLevel, int  healthIN, int pointsIN, BufferedImage musicONIN, BufferedImage musicOFFIN, GameWindow gameWindow){
         Planet = PlanetIN;
         Ship = ShipIN;
         width = widthIN;

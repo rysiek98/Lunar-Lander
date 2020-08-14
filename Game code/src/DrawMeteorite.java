@@ -23,11 +23,11 @@ public class DrawMeteorite extends JPanel {
     /** Metoda rysująca odpowiedni obraz meteorytu lub wybuchu */
     public void paintMeteorite2(Graphics g, Meteorite[] table) {
         Graphics2D g2d = (Graphics2D)g;
-        for(int i = 0; i < table.length; i++){
-            if(table[i].getAlive()) {
-                g2d.drawImage(meteorite, (int)table[i].getX(), (int)table[i].getY(), this);
-            }else {
-                g2d.drawImage(explosion.get(imageCount+table[i].getIterator()), (int)table[i].getX(), (int)table[i].getY(), this);
+        for (Meteorite value : table) {
+            if (value.getAlive()) {
+                g2d.drawImage(meteorite, (int) value.getX(), (int) value.getY(), this);
+            } else {
+                g2d.drawImage(explosion.get(imageCount + value.getIterator()), (int) value.getX(), (int) value.getY(), this);
             }
         }
     }

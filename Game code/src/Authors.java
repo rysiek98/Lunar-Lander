@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /** Klasa tworząca okno z informacją o autorach*/
 
@@ -10,7 +8,7 @@ public class Authors  extends JFrame implements WindowLocation {
     /** Konstruktor klasy Authors
      * @param Loc tablica 4 wartości Integer [współrzędna x, współrzędna y, szerokość okna, wysokość okna]
      * */
-    public Authors(int Loc[]) {
+    public Authors(int[] Loc) {
         JPanel Header = createHeader();
         JPanel Content = createContent();
         JPanel Footer = createFooter(this);
@@ -30,12 +28,7 @@ public class Authors  extends JFrame implements WindowLocation {
         JPanel panel = new JPanel();
         JButton BackButton = new JButton("Wróć");
         panel.add(BackButton);
-        BackButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-            }
-        });
+        BackButton.addActionListener(e -> frame.dispose());
         return panel;
     }
 
