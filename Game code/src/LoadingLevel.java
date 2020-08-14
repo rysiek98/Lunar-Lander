@@ -182,7 +182,7 @@ public class LoadingLevel {
 	 */
 	static String[] readLevel(String lvl) throws Exception{
 		String[] level = {"", "", "", "", "", "", "", "", ""};
-		File file = new File("levelConfig/"+lvl+".txt");
+		File file = new File("Game code/levelConfig/"+lvl+".txt");
 		BufferedReader br = new BufferedReader(new FileReader(file, UTF_8));
 		for(int i = 0; i < 9; i++){
 			String str = br.readLine();

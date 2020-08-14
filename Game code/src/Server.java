@@ -34,8 +34,8 @@ public class Server {
         serverWindow.loadData("localHost.getHostName() = " + localHost.getHostName());
 
         try {
-            serverSocket = new ServerSocket(LoadingLevel.readPort("serverConfig.txt"));
-            levels = LoadingLevel.readLevelsName("serverConfig.txt");
+            serverSocket = new ServerSocket(LoadingLevel.readPort("Game code/serverConfig.txt"));
+            levels = LoadingLevel.readLevelsName("Game code/serverConfig.txt");
         } catch (Exception e) {
             System.err.println("Create server socket: " + e);
             return;
@@ -68,7 +68,7 @@ public class Server {
                         pw.print("OK");
                         pw.println();
                         try {
-                            results = LoadingLevel.readResults("TabelaWynikow.txt");
+                            results = LoadingLevel.readResults("Game code/TabelaWynikow.txt");
                         }catch (Exception e) {
                             System.out.println("Server: BRAK BAZY WYNIKOW!");
                             serverWindow.loadData("Server: BRAK BAZY WYNIKOW!");
@@ -138,7 +138,7 @@ public class Server {
                         System.out.println("From client: [" + fromClient + "]");
                         serverWindow.loadData("From client: [" + fromClient + "]");
                         String[] text = fromClient.split("\\.");
-                        BufferedImage image = ImageIO.read(new File("img/"+fromClient));
+                        BufferedImage image = ImageIO.read(new File("Game code/img/"+fromClient));
                         ImageIO.write(image, text[1], baos);
                         byte[] size = ByteBuffer.allocate(4).putInt(baos.size()).array();
                         os.write(size);

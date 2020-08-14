@@ -209,7 +209,7 @@ public class GameWindow extends JFrame implements WindowLocation{
     private void loadDataFromFile(String path) {
         String explosionPath;
         try {
-            LoadingLevel File = new LoadingLevel(new File("levelConfig/"+path+".txt"));
+            LoadingLevel File = new LoadingLevel(new File("Game code/levelConfig/"+path+".txt"));
             readYPlanet = File.getElevation();
             readXPlanet = File.getPosition();
             readPlanetColor = File.getPlanetColor();
@@ -224,9 +224,9 @@ public class GameWindow extends JFrame implements WindowLocation{
             System.err.println("GameWindow loadDataFromFile " + e);
         }
         //WCZYTYWANIE OBRAZKU STATKU
-        File landerImage = new File("img/lander.png");
-        File musicONImage = new File("img/musicON.png");
-        File musicOFFImage = new File("img/musicOFF.png");
+        File landerImage = new File("Game code/img/lander.png");
+        File musicONImage = new File("Game code/img/musicON.png");
+        File musicOFFImage = new File("Game code/img/musicOFF.png");
         try {
             lander = ImageIO.read(landerImage);
             musicON = ImageIO.read(musicONImage);
@@ -236,7 +236,7 @@ public class GameWindow extends JFrame implements WindowLocation{
         }
 
         //WCZYTYWANIE OBRAZKU METEORU
-        File meteorImage = new File("img/meteor.png");
+        File meteorImage = new File("Game code/img/meteor.png");
 
         try {
             meteorPNG = ImageIO.read(meteorImage);
@@ -247,7 +247,7 @@ public class GameWindow extends JFrame implements WindowLocation{
 
         //Wczytywanie klatek eksplozji
         for(int i=0; i<26; i++) {
-            explosionPath = "img/bum"+(i+1)+".png";
+            explosionPath = "Game code/img/bum"+(i+1)+".png";
             File explosionGif = new File(explosionPath);
             try {
                 explosion.add(ImageIO.read(explosionGif));

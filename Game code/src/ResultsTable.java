@@ -61,7 +61,7 @@ public class ResultsTable extends JFrame implements WindowLocation{
 
             } else {
                 results = new ArrayList<String>();
-                BufferedReader br = new BufferedReader(new FileReader("TabelaWynikow.txt"));
+                BufferedReader br = new BufferedReader(new FileReader("Game code/TabelaWynikow.txt"));
                 String textLine = br.readLine();
                 do {
                     System.out.println(textLine);

@@ -10,7 +10,7 @@ public class Game extends JPanel {
     private final DrawPlanet Planet;
     private final DrawShip Ship;
     private final DrawMeteorite Meteorite;
-    private final BackgroundRepeat bgd = new BackgroundRepeat("img/sky_bcg.jpg");
+    private final BackgroundRepeat bgd = new BackgroundRepeat("Game code/img/sky_bcg.jpg");
     private final int width;
     private final int height;
     private final Control control;

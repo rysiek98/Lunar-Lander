@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class Sound {
 
-    private static String musicPath = "2001.wav";
+    private static String musicPath = "Game code/2001.wav";
     static AudioInputStream audioInput;
     static Clip clip;
     private static boolean music;

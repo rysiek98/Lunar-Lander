@@ -27,7 +27,7 @@ public  class MainWindow extends  JFrame implements WindowLocation{
             if (Client.Online()) {
                 myImage = Client.getImage("menu_background.jpg");
             }else {
-                myImage = ImageIO.read(new File("img/menu_background.jpg"));
+                myImage = ImageIO.read(new File("Game code/img/menu_background.jpg"));
             }
             this.setContentPane(new BackgroundImage(myImage));
         }catch (Exception e) {
