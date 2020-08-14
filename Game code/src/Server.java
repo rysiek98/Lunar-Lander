@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
-import java.util.Arrays;
 
 /** Klasa serwera */
 
