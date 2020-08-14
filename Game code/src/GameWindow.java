@@ -1,5 +1,4 @@
 import javax.imageio.ImageIO;
-import javax.sound.midi.SysexMessage;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
@@ -12,6 +11,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Optional;
 
 /** Klasa tworząca okno gry */
 
@@ -39,7 +39,7 @@ public class GameWindow extends JFrame implements WindowLocation{
     private int vYMax; //MAX PREDKOSC STATKU NA DANEJ PLANECIE
     private double aPlanet; //OPOR NA DANEJ PLANECIE (DO ZWALNIANIA STATKU W OX)
     private int level;
-    private final ArrayList<String> levels;
+    private ArrayList<String> levels;
 
     /** Konstruktor klasy
      * @param Loc tablica 4 wartości Integer [współrzędna x, współrzędna y, szerokość okna, wysokość okna]
@@ -50,21 +50,17 @@ public class GameWindow extends JFrame implements WindowLocation{
     public GameWindow(int[] Loc, String nick, String difLevel, String musicSettings) {
         //DODAWANIE SCIEZEK DO PLIKOW KONF. POSZCZEGOLNYCH MAP
         if(!Client.Online()){
-            levels = new ArrayList<String>();
-            levels.add("level1");
-            levels.add("level2");
-            levels.add("level3");
-            levels.add("level4");
-            levels.add("level5");
-            levels.add("level6");
-            levels.add("level7");
-            levels.add("level8");
-            levels.add("level9");
+            try {
+                levels = new ArrayList<String>(LoadingLevel.readLevelsName(LoadingLevel.pathToClientConfigFile));
+            }catch (Exception ex){
+                levels = null;
+                System.err.println("Error read  offlineClientConfig.txt" + ex);
+            }
         }else{
             levels = new ArrayList<String>(Client.getLevelList());
         }
         //WCZYTYWANIE DANYCH MAPY
-        loadData(levels.get(0));
+        loadData(Optional.ofNullable(levels.get(0)).orElseThrow(()-> new RuntimeException("Not found any level in levels list!")));
         setSize(1280, 720);
         MusicSettings = musicSettings;
         //WYKRYWANIE ZMIANY ROZMIARU OKNA
@@ -175,7 +171,11 @@ public class GameWindow extends JFrame implements WindowLocation{
         if (Client.Online()) {
             loadDataFromServer(path);
         }else {
-            loadDataFromFile(path);
+            try {
+                loadDataFromFile(path);
+            }catch (Exception ex){
+                System.err.println("GameWindow loadData " + ex);
+            }
         }
     }
 
@@ -206,10 +206,10 @@ public class GameWindow extends JFrame implements WindowLocation{
     }
 
     /** Metoda służąca do załadownia danych mapy z własnych danych*/
-    private void loadDataFromFile(String path) {
+    private void loadDataFromFile(String path) throws Exception {
         String explosionPath;
         try {
-            LoadingLevel File = new LoadingLevel(new File("Game code/levelConfig/"+path+".txt"));
+            LoadingLevel File = new LoadingLevel(new File(LoadingLevel.readPathsTo("levelConfig", LoadingLevel.pathToClientConfigFile)+path+".txt"));
             readYPlanet = File.getElevation();
             readXPlanet = File.getPosition();
             readPlanetColor = File.getPlanetColor();
@@ -224,30 +224,28 @@ public class GameWindow extends JFrame implements WindowLocation{
             System.err.println("GameWindow loadDataFromFile " + e);
         }
         //WCZYTYWANIE OBRAZKU STATKU
-        File landerImage = new File("Game code/img/lander.png");
-        File musicONImage = new File("Game code/img/musicON.png");
-        File musicOFFImage = new File("Game code/img/musicOFF.png");
         try {
+            File landerImage = new File(LoadingLevel.readPathsTo("img", LoadingLevel.pathToClientConfigFile)+"lander.png");
+            File musicONImage = new File(LoadingLevel.readPathsTo("img", LoadingLevel.pathToClientConfigFile)+"musicON.png");
+            File musicOFFImage = new File(LoadingLevel.readPathsTo("img", LoadingLevel.pathToClientConfigFile)+"musicOFF.png");
+
+            //WCZYTYWANIE OBRAZKU METEORU
+            File meteorImage = new File(LoadingLevel.readPathsTo("img", LoadingLevel.pathToClientConfigFile)+"meteor.png");
+
             lander = ImageIO.read(landerImage);
             musicON = ImageIO.read(musicONImage);
             musicOFF = ImageIO.read(musicOFFImage);
-        } catch (IOException e) {
-            System.err.println("GameWindow loadDataFromFile " + e);
-        }
-
-        //WCZYTYWANIE OBRAZKU METEORU
-        File meteorImage = new File("Game code/img/meteor.png");
-
-        try {
             meteorPNG = ImageIO.read(meteorImage);
         } catch (IOException e) {
             System.err.println("GameWindow loadDataFromFile " + e);
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
 
 
         //Wczytywanie klatek eksplozji
         for(int i=0; i<26; i++) {
-            explosionPath = "Game code/img/bum"+(i+1)+".png";
+            explosionPath = LoadingLevel.readPathsTo("img", LoadingLevel.pathToClientConfigFile)+"bum"+(i+1)+".png";
             File explosionGif = new File(explosionPath);
             try {
                 explosion.add(ImageIO.read(explosionGif));

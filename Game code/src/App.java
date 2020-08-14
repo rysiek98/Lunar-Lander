@@ -3,7 +3,7 @@ import java.awt.*;
 
 /**
  * @author  Michał Ryszka, Wojciech Kowalski
- * @version 1.00
+ * @version 1.01
  * @since   2020-06-08
 
 /** Główna klasa uruchamiająca aplikację*/

@@ -10,7 +10,7 @@ public class Game extends JPanel {
     private final DrawPlanet Planet;
     private final DrawShip Ship;
     private final DrawMeteorite Meteorite;
-    private final BackgroundRepeat bgd = new BackgroundRepeat("Game code/img/sky_bcg.jpg");
+    private BackgroundRepeat bgd;
     private final int width;
     private final int height;
     private final Control control;
@@ -37,6 +37,11 @@ public class Game extends JPanel {
         musicOFF = musicOFFIN;
         musicON = musicONIN;
         iterator = 0;
+        try{
+           bgd = new BackgroundRepeat(LoadingLevel.readPathsTo("img",LoadingLevel.pathToClientConfigFile)+"sky_bcg.jpg");
+        }catch (Exception exception){
+            System.err.println("Background reapet exepction "+exception);
+        }
     }
 
     /** Metoda paintComponent */

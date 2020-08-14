@@ -22,12 +22,11 @@ public  class MainWindow extends  JFrame implements WindowLocation{
         setSize(new Dimension(800, 700));
 
         try {
-
             BufferedImage myImage;
             if (Client.Online()) {
                 myImage = Client.getImage("menu_background.jpg");
             }else {
-                myImage = ImageIO.read(new File("Game code/img/menu_background.jpg"));
+                myImage = ImageIO.read(new File(LoadingLevel.readPathsTo("img",LoadingLevel.pathToClientConfigFile)+"menu_background.jpg"));
             }
             this.setContentPane(new BackgroundImage(myImage));
         }catch (Exception e) {

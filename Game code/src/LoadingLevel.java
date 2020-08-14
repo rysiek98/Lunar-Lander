@@ -16,60 +16,57 @@ public class LoadingLevel {
 	private final double aPlanet;
 	private final int[] planetColorRGB =  new int[3];
 	private final int[] landerStartPosition =  new int[2];
+	public static final String pathToClientConfigFile = "Game code/offlineClientConfig.txt";
+	public static final String pathToServerConfigFile = "Game code/serverConfig.txt";
 
 	/** Konstruktor klasy
 	 * @param file plik z którego mają być wczytane dane poziomu
 	 */
 	public LoadingLevel(File file) throws Exception{
-
+		ArrayList<String> readLine = new ArrayList<>();
 		BufferedReader br = new BufferedReader(new FileReader(file, UTF_8));
-		 
-		String st1 = br.readLine().split("=")[1];;
-		String st2 = br.readLine().split("=")[1];;
-		String st3 = br.readLine().split("=")[1];;
-		String st4 = br.readLine().split("=")[1];;
-		String st5 = br.readLine().split("=")[1];;
-		String st6 = br.readLine().split("=")[1];;
-		String st7 = br.readLine().split("=")[1];;
-		String st8 = br.readLine().split("=")[1];;
-		String st9 = br.readLine().split("=")[1];;
+		String textLine = br.readLine();
+		do {
+			readLine.add(textLine.split("=")[1]);
+			textLine = br.readLine();
+		} while (textLine != null);
 		br.close();
 
-		String[] position_str = st1.split(" ");
+		String[] position_str = readLine.get(0).split(" ");
 
 		for (String item : position_str) {
 			position.add(Integer.parseInt(item));
 		}
 
-		String[] elevation_str = st2.split(" ");
+		String[] elevation_str = readLine.get(1).split(" ");
 
 		for (String value : elevation_str) {
 			elevation.add(Integer.parseInt(value));
 		}
 
-		gravity = Integer.parseInt(st3);
+		gravity = Integer.parseInt(readLine.get(2));
 		
-		meteorites = Integer.parseInt(st4);
+		meteorites = Integer.parseInt(readLine.get(3));
 
-		String[] planetColorRGB_str = st5.split(" ");
+		String[] planetColorRGB_str = readLine.get(4).split(" ");
 		for(int i = 0; i < 3; i++) {
 			planetColorRGB[i] = Integer.parseInt(planetColorRGB_str[i]);
 		}
 
-		String[] landerStartPosition_str = st6.split(" ");
+		String[] landerStartPosition_str = readLine.get(5).split(" ");
 		for(int i = 0; i < 2; i++) {
 			landerStartPosition[i] = Integer.parseInt(landerStartPosition_str[i]);
 		}
 
-		String[] lands_str = st7.split(" ");
+		String[] lands_str = readLine.get(6).split(" ");
 
 		for (String s : lands_str) {
 			lands.add(Integer.parseInt(s));
 		}
 
-		vYMax = Integer.parseInt(st8);
+		vYMax = Integer.parseInt(readLine.get(7));
 
-		aPlanet = Double.parseDouble(st9);
+		aPlanet = Double.parseDouble(readLine.get(8));
 
 	}
 
@@ -182,7 +179,7 @@ public class LoadingLevel {
 	 */
 	static String[] readLevel(String lvl) throws Exception{
 		String[] level = {"", "", "", "", "", "", "", "", ""};
-		File file = new File("Game code/levelConfig/"+lvl+".txt");
+		File file = new File(readPathsTo("levelConfig", pathToServerConfigFile)+lvl+".txt");
 		BufferedReader br = new BufferedReader(new FileReader(file, UTF_8));
 		for(int i = 0; i < 9; i++){
 			String str = br.readLine();
@@ -197,6 +194,7 @@ public class LoadingLevel {
 	 * @return zwraca ArrayList<String> z wynikami
 	 */
 	static ArrayList<String> readResults(String path) throws Exception{
+
 		ArrayList<String> results = new ArrayList<String>();
 		BufferedReader br = new BufferedReader(new FileReader(path, UTF_8));
 
@@ -241,4 +239,18 @@ public class LoadingLevel {
 		ArrayList<String> levels =new ArrayList<String>(Arrays.asList(text[1].split(",")));
 		return levels;
 	}
+
+	static String readPathsTo(String pathTo, String pathToConfigFile) throws Exception{
+		String[] text;
+		File file = new File(pathToConfigFile);
+		BufferedReader br = new BufferedReader(new FileReader(file, UTF_8));
+		do {
+			String str = br.readLine();
+			text = str.split("=");
+		}while (!text[0].equals("Paths"));
+		br.close();
+		ArrayList<String> paths =new ArrayList<String>(Arrays.asList(text[1].split(",")));
+		return paths.stream().filter(word -> word.contains(pathTo)).findFirst().orElse("Not found: "+pathTo);
+	}
+
 }

@@ -68,7 +68,8 @@ public class Server {
                         pw.print("OK");
                         pw.println();
                         try {
-                            results = LoadingLevel.readResults("Game code/TabelaWynikow.txt");
+                            System.out.println(LoadingLevel.readPathsTo("ResultsTable",LoadingLevel.pathToServerConfigFile));
+                            results = LoadingLevel.readResults(LoadingLevel.readPathsTo("ResultsTable",LoadingLevel.pathToServerConfigFile));
                         }catch (Exception e) {
                             System.out.println("Server: BRAK BAZY WYNIKOW!");
                             serverWindow.loadData("Server: BRAK BAZY WYNIKOW!");
@@ -138,7 +139,7 @@ public class Server {
                         System.out.println("From client: [" + fromClient + "]");
                         serverWindow.loadData("From client: [" + fromClient + "]");
                         String[] text = fromClient.split("\\.");
-                        BufferedImage image = ImageIO.read(new File("Game code/img/"+fromClient));
+                        BufferedImage image = ImageIO.read(new File(LoadingLevel.readPathsTo("img",LoadingLevel.pathToServerConfigFile)+fromClient));
                         ImageIO.write(image, text[1], baos);
                         byte[] size = ByteBuffer.allocate(4).putInt(baos.size()).array();
                         os.write(size);
