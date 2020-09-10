@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 /** Klasa rysująca meteoryt */
@@ -23,12 +24,13 @@ public class DrawMeteorite extends JPanel {
     /** Metoda rysująca odpowiedni obraz meteorytu lub wybuchu */
     public void paintMeteorite2(Graphics g, Meteorite[] table) {
         Graphics2D g2d = (Graphics2D)g;
-        for (Meteorite value : table) {
-            if (value.getAlive()) {
-                g2d.drawImage(meteorite, (int) value.getX(), (int) value.getY(), this);
+        Arrays.stream(table).forEach(meteorite1 -> {
+            if (meteorite1.getAlive()) {
+                g2d.drawImage(meteorite, (int) meteorite1.getX(), (int) meteorite1.getY(), this);
             } else {
-                g2d.drawImage(explosion.get(imageCount + value.getIterator()), (int) value.getX(), (int) value.getY(), this);
+                g2d.drawImage(explosion.get(imageCount + meteorite1.getIterator()), (int) meteorite1.getX(), (int) meteorite1.getY(), this);
             }
-        }
+        });
+
     }
 }
