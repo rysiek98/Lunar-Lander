@@ -23,8 +23,8 @@ Somescreen shots:
 ![Home](/readme_img/home.png)
   
 ## Game: <h3>
-![Home](/readme_img/game.png)
+![Game](/readme_img/game.png)
   
 ## End Game: <h3>
-![Home](/readme_img/end.png)
+![End game](/readme_img/end.png)
 
