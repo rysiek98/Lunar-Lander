@@ -17,3 +17,14 @@ In cooperate with [kovalskj](https://github.com/kovalskj).
 
 Created by Michał Ryszka & Wojciech Kowalski June 2020 
 
+Somescreen shots:
+
+## Home: <h3>
+![Home](/Readme_img/home.png)
+  
+## Game: <h3>
+![Home](/Readme_img/game.png)
+  
+## End Game: <h3>
+![Home](/Readme_img/end.png)
+
