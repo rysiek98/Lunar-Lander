@@ -20,11 +20,11 @@ Created by Michał Ryszka & Wojciech Kowalski June 2020
 Somescreen shots:
 
 ## Home: <h3>
-![Home](/Readme_img/home.png)
+![Home](/readme_img/home.png)
   
 ## Game: <h3>
-![Home](/Readme_img/game.png)
+![Home](/readme_img/game.png)
   
 ## End Game: <h3>
-![Home](/Readme_img/end.png)
+![Home](/readme_img/end.png)
 
